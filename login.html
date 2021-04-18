@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="/src/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script type="text/javascript" src="./assets/scripts/login.js"></script>
+        <title>LOGIN</title>
+    </head>
+    <body class="body">
+
+        <nav>
+            <ul>
+              <li>
+                <a href="index.html">Home</a>
+              </li>
+              <li>
+                <a href="#">About</a>
+              </li>
+              <li>
+                <a href="#">Service</a>
+              </li>
+              <li>
+                <a href="#">Login</a>
+              </li>
+              <li>
+                <a href="register.html">Register</a>
+              </li>
+            </ul>
+          </nav>
+
+        <div class="login-div">
+            <div class="logo">
+                <img src="src/favicon.ico" alt="">
+            </div>
+
+            <div class="title"></div>
+            <div class="sub-title"></div>
+
+            <div class="form">
+
+                <div class="username">
+                    <input id="username" type="text" placeholder="Username or Email">
+                </div>
+
+                <div class="password">
+                    <input id="password" type="password" placeholder="Password">
+                </div>
+
+                <div class="options">
+                  <div class="remember-me">
+                    <input id="remember-me" type="checkbox">
+                    <label for="remember-me">Remember</label>
+                  </div>
+
+                  <div class="forgot-password">
+                      <a href="#">Forgot Password</a>
+                  </div>
+
+                </div>
+
+                <button id="signin" class="signin-btn" type="submit" onclick="validate()">LOGIN</button>
+                <div class="sign-up">
+                    <a href="register.html">Sign Up</a>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
