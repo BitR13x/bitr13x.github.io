@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" onkeydown="toggleSwitch(event)" onmousewheel="">
   <head>
+
     <link rel="shortcut icon" href="/src/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/stylehtml.css">
+    <link rel="stylesheet" href="assets/css/styleindex.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <script type="text/javascript" src="./assets/scripts/javascript.js"></script>
-    <title>CTF WEBSITE</title>                                                                                                                                                                                  
+    <script type="text/javascript" src="./assets/scripts/javascript.js" charset="utf-8"></script>
+    <title>CTF WEBSITE</title>
+
   </head>
   <body>
+
     <div id="root"></div>
+    <h1 class="textwhite" id="text">CTF WEBSITE</h1>
     <script type="text/javascript" src="./dist/ctfhtml.js"></script>
-    
-    <div class="thm">
+
+    <div class="center">
       <label class="switch">
-        <input type="checkbox" onclick="darkmode()" autocomplete="off">
+        <input type="checkbox" id="checkb" onclick="darkmode()" autocomplete="off">
         <span class="slider"></span>
       </label>
     </div>
@@ -37,17 +41,26 @@
         <li>
           <a href="register.html">Register</a>
         </li>
+        <li>
+          <p />
+          <p />
+        </li>
+        <li>
+          <a href="hacking.html">Hacking</a>
+        </li>
       </ul>
     </nav>
 
-    <div class="thm">
+    <div class="center">
       <img src="http://www.hackthebox.eu/badge/image/278324" alt="Hack The Box">
     </div>
-      <!-- <script src="https://www.hackthebox.eu/badge/278324"></script> -->
-      <!-- <script src="https://tryhackme.com/badge/31780"></script> -->
-    <div class="thm">
+
+    <div class="center">
       <img src="https://tryhackme-badges.s3.amazonaws.com/Kiwi50.png" alt="TryHackMe">
     </div>
+
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript" src="./assets/scripts/canvas.js" charset="utf-8"></script>
 
   </body>
 </html>

@@ -7793,8 +7793,8 @@
 	    key: "render",
 	    value: function render() {
 	      return /*#__PURE__*/react.createElement("div", {
-	        className: "thm"
-	      }, /*#__PURE__*/react.createElement("h1", null, "CTF WEBSITE"));
+	        className: "text"
+	      });
 	    }
 	  }]);
 

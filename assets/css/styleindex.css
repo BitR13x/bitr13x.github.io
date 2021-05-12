@@ -1,6 +1,22 @@
 html {
     height: 100%; background: gb(2,0,036);
-    background: linear-gradient(90deg,rgb(0, 0, 0) 0%,grey 200%);
+    background: linear-gradient(90deg,rgb(0, 0, 0) 0%,grey 300%);
+}
+
+body {
+  	font-family: Futura, sans-serif;
+    /* background: gb(2,0,036); */
+    color: white;
+    font-size: 15px
+    /*     background: linear-gradient(90deg,rgb(0, 0, 0) 0%,grey 200%);    */
+}
+
+#canvas {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 nav {
@@ -14,6 +30,9 @@ nav ul {
     background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.2) 75%, rgba(255,255,255,0) 100%);
     box-shadow: 0 0 25px rgba(0,0,0,.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
     background-color: white;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 li a:hover {
@@ -33,7 +52,21 @@ nav a {
     text-decoration: none;
 }
 
-.thm {
+.textwhite {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: white;
+}
+
+.textdark {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: black;
+}
+
+.center {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -45,13 +78,13 @@ nav a {
     width: 60px;
     height: 34px;
 }
-  
-.switch input { 
+
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-  
+
 .slider {
     position: absolute;
     cursor: pointer;
@@ -63,7 +96,7 @@ nav a {
     -webkit-transition: .4s;
     transition: .4s;
 }
-  
+
 .slider:before {
     position: absolute;
     content: "";
@@ -75,38 +108,34 @@ nav a {
     -webkit-transition: .4s;
     transition: .4s;
 }
-  
+
 input:checked + .slider {
     background-color: #041A00;
 }
-  
+
 input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
 }
-  
+
 input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
-  
+
 /* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
-  
+
   .slider.round:before {
     border-radius: 50%;
   }
 
-body {
-    padding: 25px;
-    background-color: white;
-    color: black;
-    font-size: 25px;
-}
-  
-.dark-mode {
-    background-color: rgb(36, 35, 35);
-    color: white;
+.white-mode {
+    /*     background-color: rgb(36, 35, 35);    */
+    padding: 1px;
+    background: black;
+    color: #ffffff;
+    font-size: 16px;
 }
