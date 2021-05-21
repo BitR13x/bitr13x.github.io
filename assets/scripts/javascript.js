@@ -1,9 +1,22 @@
 function darkmode() {
     var element = document.body;
     element.classList.toggle("white-mode");
+    console.log(element.className)
 
-    var texth1 = document.getElementById("text")
-    texth1.classList.toggle("textdark")
+
+
+    /*
+    cookiearray = allcookies.split(';')
+
+    for(var i=0; i<cookiearray.length; i++) {
+       name = cookiearray[i].split('=')[0];
+       value = cookiearray[i].split('=')[1];
+       document.write ("Key is : " + name + " and Value is : " + value);
+    }
+    */
+
+
+
 
 /*
     $('#foo').css({
@@ -18,17 +31,6 @@ function darkmode() {
 
 // onresize, onload, onpagehide, onpageshow, onunload (when browser window is closed)
 
-/*
-
-var input = document.getElementById("checkb");
-input.("keyup", function(event) {
-  if (event.keyCode === 13) {
-   event.preventDefault();
-   document.getElementById("checkb").click();
-  }
-});
-
-*/
 
 function toggleSwitch(event) {
   // console.log(event.keyCode)
