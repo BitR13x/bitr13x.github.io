@@ -1,18 +1,13 @@
 html {
-    height: 100%; background: gb(2,0,036);
-    background: linear-gradient(90deg,rgb(0, 0, 0) 0%,grey 300%);
+    height: 100%; background: rgb(2,0,036);
+    background: rgb(31, 30, 30);
 }
 
-.body {
-  	margin: 0rem;
-  	min-height: 100vh;
+body {
   	font-family: Futura, sans-serif;
-    height: 100%;
-    /* background: gb(2,0,036); */
-    background: #222;
+    background-color: transparent !important;
     color: white;
     font-size: 15px
-    /*     background: linear-gradient(90deg,rgb(0, 0, 0) 0%,grey 200%);    */
 }
 
 #canvas {
@@ -47,3 +42,11 @@ li a {
 li a:hover {
     background-color: #111;
 }
+
+
+p {
+    font-family: Futura, sans-serif;
+    font-size: 15px;
+}
+
+
