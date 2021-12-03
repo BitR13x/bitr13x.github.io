@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
 
     <link rel="shortcut icon" href="./src/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/stylehack.css">
@@ -9,115 +10,151 @@
     <meta name="theme-color" content="#000000" />
     <script type="text/javascript" src="./assets/scripts/javascript.js" charset="utf-8"></script>
 
-	  <!-- Bootstrap / fontawesome / Jquary-->
+    <!-- Bootstrap / fontawesome / Jquary-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
 
     <title>GitHub-Page</title>
 
-  </head>
-  <body>
+</head>
+<body onload="on_load()">
     <nav>
-      <ul>
-        <li>
-          <a href="index.html">Home</a>
-        </li>
-        <li>
-          <a href="about.html">About</a>
-        </li>
-        <li>
-          <p>
-          </p>
-        </li>
-        <li>
-          <a href="hacking.html">Hacking Sources</a>
-        </li>
-      </ul>
+        <ul class="topS">
+            <li class="topList">
+                <a class="a-list" href="index.html">Home</a>
+            </li>
+            <li class="topList">
+                <a class="a-list" href="about.html">About</a>
+            </li>
+            <li class="topList">
+                <p>
+                </p>
+            </li>
+            <li class="topList">
+                <a class="a-list" href="hacking.html">Hacking Sources</a>
+            </li>
+        </ul>
     </nav>
     <div id="root"></div>
-  <!-- <div style="size: 0px;" class="pos-f-t">
-    <div class="collapse" id="navbarToggleExternalContent">
-      <div class="bg-dark p-4">
-        <h4 class="text-white">Collapsed content</h4>
-        <span class="text-muted">Toggleable via the navbar brand.</span>
-      </div>
+
+    <div style="padding-top: 20px;"></div>
+
+    <div id="ft1" style="max-width: 50%; background-color: whitesmoke; border-radius: 15px;" class="container-fluid center">
+
+        <h1 style="text-align: center; margin-bottom: 5%;">Hacking Sources</h1>
+
+        <h3>Programming</h3>
+        <p>
+            <ul>
+                <li><a href="https://binarysearch.com/">https://binarysearch.com</a></li>
+                <li><a href="https://www.hackerone.com/">https://hackerone.com</a></li>
+                <li><a href="https://www.w3schools.com/">https://www.w3schools.com</a></li>
+                <li><a href="https://www.hackerrank.com/">https://Hackerrank.com</a></li>
+            </ul>
+        </p>
+
+        <h3>Practical</h3>
+        <p>
+            <ul>
+                <li><a href="https://portswigger.net/training">https://PortSwigger.net/</a></li>
+                <li><a href="https://hackthebox.eu/">https://HackTheBox.eu/</a></li>
+                <li><a href="https://tryhackme.com/">https://TryHackMe.com/</a></li>
+                <li><a href="https://play.picoctf.org/">https://play.picoctf.org/</a></li>
+                <li><a href="https://ine.com/">https://ine.com/</a></li>
+            </ul>
+        </p>
+
+        <h3>Privilege Escalation</h3>
+        <p>
+            <ul>
+                <li><a href="http://www.fuzzysecurity.com/tutorials/16.html">Windows Privilege Escalation Fundamentals</a></li>
+                <li><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/">Basic Linux Privilege
+          Escalation</a></li>
+            </ul>
+        </p>
+
+        <h3>Reverse engineering</h3>
+        <p>
+            <ul>
+                <li><a href="https://www.youtube.com/watch?v=iyAyN3GFM7A&list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN">Binary
+          Exploitation / Memory Corruption by LiveOverflow</a></li>
+                <li><a href="https://microcorruption.com/login">https://microcorruption.com/</a></li>
+            </ul>
+        </p>
+
+        <h3>Learning from Youtube</h3>
+        <p>
+            <ul>
+                <li><a href="https://archive.org/details/github.com-JoseDeFreitas-awesome-youtubers_-_2020-10-14_15-05-33">Youtubers</a>
+                </li>
+            </ul>
+        </p>
+
+        <h3>Algorithms</h3>
+        <p>
+            <ul>
+                <li><a href="https://www.reddit.com/r/learnprogramming/comments/bp01kk/learn_algorithms_js_prepare_for_interviews/">https://www.reddit.com/r/learnprogramming/</a>
+                </li>
+                <li><a href="https://www.youtube.com/watch?v=8hly31xKli0">Algorithms and Data Structures Tutorial</a></li>
+            </ul>
+        </p>
+
+        <h3>Amazing notes+scripts from jephk9</h3>
+        <p>
+            <ul>
+                <li><a href="https://github.com/jephk9/oscp-jewels">https://github.com/jephk9/oscp-jewels</a></li>
+            </ul>
+        </p>
+
+        <h3>Recommended Certs</h3>
+        <p>
+            <ul>
+                <li><a href="https://elearnsecurity.com/product/ejpt-certification/">eJPT-certification</a></li>
+                <li><a href="https://www.offensive-security.com/pwk-oscp/">OSCP-certification</a></li>
+            </ul>
+        </p>
+
+        <h3>CTFs</h3>
+        <p>
+            <ul>
+                <li><a href="https://ctftime.org/">https://ctftime.org/</a></li>
+            </ul>
+        </p>
+
+        <h3>Books</h3>
+        <p>
+            <ul>
+                <li><a href="https://repo.zenk-security.com/Magazine%20E-book/Hacking-%20The%20Art%20of%20Exploitation%20(2nd%20ed.%202008)%20-%20Erickson.pdf">Hacking:
+          The Art Of Exploitation</a></li>
+                <li><a href="https://www.amazon.com/Black-Hat-Python-Programming-Pentesters/dp/1593275900">Black Hat Python</a>
+                </li>
+                <li><a href="https://www.amazon.co.uk/dp/1512214566/ref=as_li_ss_tl?cv_ct_pg=storefront&cv_ct_wn=aip-storefront&ref=exp_cov_ceos3ctutorials_dp_vv_d&cv_ct_id=amzn1.idea.2A2G5RW8E6Q5J&language=en_US&linkCode=gs2&linkId=4c0880aebec44c0491e56e051c3c2b9e&tag=ceos3c23-21">The
+          Hacker Playbook 2</a></li>
+            </ul>
+        </p>
+
+        <h3>Attractions</h3>
+        <p>
+            <ul>
+                <li><a href="https://gtfobins.github.io/">https://gtfobins.github.io/</a></li>
+                <li><a href="https://vickieli.medium.com/bypassing-ssrf-protection-e111ae70727b">Bypassing SSRF Protection</a>
+                </li>
+                <li><a href="https://www.exploit-db.com/">Exploit database</a></li>
+                <li><a href="https://education.github.com/pack#offers">Education GitHub</a></li>
+                <li><a href="https://null-byte.wonderhowto.com/">Wikipedia from null-byte</a></li>
+            </ul>
+        </p>
+
+        <p>⠀</p>
     </div>
-    <nav class="navbar navbar-dark bg-dark">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-        aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </nav>
-	</div> -->
 
-	
-
-  <div id="ft1" style="max-width: 50%; background-color: whitesmoke; border-radius: 15px;" class="container-fluid center">
-    
-    <h1 style="text-align: center; margin-bottom: 5%;">Hacking Sources</h1>
-
-    <h2>Learning programming:</h2>
-    <p>
-      <a href="https://binarysearch.com/">https://Binarysearch.com/</a> <br>
-      <a href="https://www.hackerone.com/">https://Hackerone.com</a> <br>
-      <a href="https://www.hackerrank.com/">https://Hackerrank.com</a>
-    </p>
-
-    <p>
-      <a href="https://null-byte.wonderhowto.com/">https://null-byte.wonderhowto.com/</a> <br>
-      <a href="https://ine.com/">https://ine.com/</a> 
-    </p>
-
-    <h2>Practical:</h2>
-    <p>
-      <a href="https://portswigger.net/training">https://PortSwigger.net/</a> <br>
-      <a href="https://hackthebox.eu/">https://HackTheBox.eu/</a> <br>
-      <a href="https://tryhackme.com/">https://TryHackMe.com/</a> 
-    </p>
-
-    <h2>Recommended certs:</h2>
-    <p>
-      <a href="https://elearnsecurity.com/product/ejpt-certification/">eJPT-certification</a> <br>
-      <a href="https://www.offensive-security.com/pwk-oscp/">OSCP-certification</a>
-    </p>  
-    
-    <p>
-      <a href="https://archive.org/details/github.com-JoseDeFreitas-awesome-youtubers_-_2020-10-14_15-05-33">Learning from Youtube</a>
-    </p>
-    
-    <h2>Algorithms:</h2>
-    <p>
-      <a href="https://www.reddit.com/r/learnprogramming/comments/bp01kk/learn_algorithms_js_prepare_for_interviews/">https://www.reddit.com/r/learnprogramming/</a> 
-    </p>
-      
-
-    <h2>GitHub offers:</h2>
-    <p>
-      <a href="https://education.github.com/pack#offers">https://education.github.com/pack#offers</a> 
-    </p>
-
-    <h2>Amazing notes+scripts from jephk9:</h2>
-    <p>
-      <a href="https://github.com/jephk9/oscp-jewels">https://github.com/jephk9/oscp-jewels</a> 
-    </p>
-
-    <p>⠀</p>
-  </div>
-
-	<canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas>
     <script type="text/javascript" src="./assets/scripts/canvas.js" charset="utf-8"></script>
 
-  </body>
+</body>
 </html>

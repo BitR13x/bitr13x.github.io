@@ -1,24 +1,25 @@
 html {
-    height: 100%; background: rgb(2,0,036);
+    height: 100%;
+    background: rgb(2, 0, 036);
     background: rgb(31, 30, 30);
 }
 
 body {
-  	font-family: Futura, sans-serif;
+    font-family: Futura, sans-serif;
     background-color: transparent !important;
     color: white;
     font-size: 15px
 }
 
 #canvas {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  z-index: -1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
-ul {
+.topS {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -26,11 +27,11 @@ ul {
     background-color: #333;
 }
 
-li {
+.topList {
     float: left;
 }
 
-li a {
+.a-list {
     display: block;
     color: white;
     text-align: center;
@@ -38,15 +39,14 @@ li a {
     text-decoration: none;
 }
 
-  /* Change the link color to #111 (black) on hover */
-li a:hover {
+
+/* Change the link color to #111 (black) on hover */
+
+.a-list:hover {
     background-color: #111;
 }
-
 
 p {
     font-family: Futura, sans-serif;
     font-size: 15px;
 }
-
-
