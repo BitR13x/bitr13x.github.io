@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+html {
+    height: 100%;
+    background-color: #212529;
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: medium;
+    min-height: 100vh;
+    line-height: 1;
+}
+
+body {
+    background-color: transparent !important;
+    color: white;
+    font-size: 20px
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 550;
+    line-height: 1.2;
+}
+
+@media screen and (max-width: 750px) {
+    .content {
+        margin: 5vh 1vw 5vh 1vw !important;
+    }
+}
+
+.content {
+    margin: 5vh 15vw 5vh 15vw;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    background-color: #333;
+    border-radius: 15px;
+}
+
+#canvas {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+a {
+    color: #1e88e5;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1e2be5;
+    cursor: pointer;
+}
+
+.topS {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.topList {
+    float: right;
+}
+
+.a-list {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 10vw;
+    text-decoration: none;
+}
+
+
+/* Change the link color to #111 (black) on hover */
+
+.a-list:hover {
+    background-color: #111;
+}

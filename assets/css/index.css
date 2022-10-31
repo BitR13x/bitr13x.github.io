@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+html {
+    height: 100%;
+    font-size: medium;
+    min-height: 100vh;
+    line-height: 1;
+    background-color: #212529;
+    font-family: 'Ubuntu Mono', monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    margin-top: 10vh;
+    color: white;
+    font-size: 20px;
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@media screen and (max-width: 750px) {
+    .content {
+        margin: 5vh 1vw 5vh 1vw !important;
+    }
+}
+
+.content {
+    margin: 5vh 15vw 5vh 15vw;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    background-color: #333;
+    border-radius: 15px;
+}
+
+p {
+    margin-bottom: 2vh;
+}
+
+.outside-link {
+    color: #1e88e5;
+    text-decoration: none;
+}
+
+.outside-link:hover {
+    color: #1e2be5;
+    cursor: pointer;
+}
+
+#canvas {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+nav {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 0;
+    mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
+}
+
+nav ul {
+    text-align: center;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, .1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+    background-color: white;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li a:hover {
+    background-color: black;
+    color: white;
+}
+
+li {
+    display: inline;
+}
+
+nav a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.textwhite {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: white;
+}
+
+.textdark {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: black;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
