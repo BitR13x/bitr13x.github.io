@@ -33,9 +33,19 @@ body {
     padding: 0;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 550px) {
     .content {
         margin: 5vh 1vw 5vh 1vw !important;
+    }
+
+    .thm {
+        position: relative !important;
+        margin-left: 25%;
+    }
+
+    .htb {
+        position: relative !important;
+        margin-left: 25%;
     }
 }
 
