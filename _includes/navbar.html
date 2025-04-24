@@ -1,0 +1,84 @@
+<style>
+    nav {
+        background-color: #171a1d;
+        color: #f0f0f0;
+        padding: 1rem 2rem;
+        font-family: 'Courier New', monospace;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav > a {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+        color: #f0f0f0;
+    }
+
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    nav ul li {
+        margin-left: 1.5rem;
+    }
+
+    nav ul li a {
+        color: #f0f0f0;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+        color: #1e88e5;
+        text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        nav {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1rem;
+        }
+
+        nav > a {
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        nav ul li {
+            margin-left: 0;
+            margin-bottom: 0.5rem;
+            width: 100%;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #282c34;
+        }
+
+        nav ul li:last-child a {
+            border-bottom: none;
+        }
+    }
+</style>
+
+<nav>
+    <a href="{% link index.md %}">&gt; @BitR13x</a>
+    <ul>
+        <li><a href="{% link index.md %}">/Home</a></li>
+        <li><a href="{% link notes.md %}">/Notes</a></li>
+        <li><a href="{% link sources.md %}">/Hacking Sources</a></li>
+        <li><a href="{% link blog.md %}">/Articles</a></li>
+    </ul>
+</nav>

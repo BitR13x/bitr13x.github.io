@@ -1,29 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
-
-html {
-    height: 100%;
-    background-color: #212529;
-    font-family: 'Ubuntu Mono', monospace;
-    font-size: medium;
-    min-height: 100vh;
-    line-height: 1;
-}
-
 body {
     background-color: transparent !important;
     color: black;
     font-size: 20px
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-    font-family: 'Courier New', Courier, monospace;
-    line-height: 550;
-    line-height: 1.2;
-}
 
 @media screen and (max-width: 750px) {
     .content {
@@ -46,16 +26,6 @@ h5 {
     top: 0;
     left: 0;
     z-index: -1;
-}
-
-a {
-    color: #1e88e5;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #1e2be5;
-    cursor: pointer;
 }
 
 .topS {

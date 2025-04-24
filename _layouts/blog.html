@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: " en-US" }}">
+
+<head>
+    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/blog.css" />
+    <script src="{{site.baseurl}}/assets/js/copy-code.js"></script>
+    {% include head_meta.html %}
+    <link rel="stylesheet" href="{{ "/assets/css/index.css" | relative_url }}">
+</head>
+
+<body>
+    {% include navbar.html %}
+    <main>
+        <section class="articles">
+            {% for post in site.posts %}
+            <article class="article">
+                <h2 class="article-title">
+                    <a href="{{site.baseurl}}{{post.url}}"> {{post.title}} </a>
+                </h2>
+                <small class="date">{{post.date | date_to_string}}</small>
+                <div class="categories">
+                    {% for c in post.tags %}
+                    <a href="{{site.baseurl}}/tags#{{c | cgi_escape}}" data-base-url="{{site.baseurl}}" class="category">{{c}}</a>
+                    {% endfor %}
+                </div>
+            </article>
+            {%endfor%}
+        </section>
+
+    </main>
+
+<canvas id="canvas"></canvas>
+
+<script type="text/javascript" src="{{"/assets/scripts/canvas.js" | relative_url }}" charset="utf-8"></script>
+</body>
+
+</html>

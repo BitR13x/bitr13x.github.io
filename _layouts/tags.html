@@ -1,0 +1,73 @@
+---
+layout: default
+---
+
+<style>
+    main {
+        display: flex;
+        justify-content: center;
+        margin: 10vh 10vw;
+    }
+
+    ul {
+        margin-left: 10px;
+        list-style: none;
+    }
+
+    .post {
+        max-width: 800px;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .archive-tags {
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+    h2 {
+        margin-bottom: 20px;
+        margin-top: 30px;
+    }
+
+    .archive-post-list {
+        margin-bottom: 10px;
+    }
+
+    .archive-top-link {
+        margin-left: 10px;
+        color: white;
+        font-size: 0.88889em;
+    }
+
+
+</style>
+
+{% include navbar.html %}
+<main>
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">{{page.title}}</h1>
+    </header>
+    <div class="post-content">
+      <div class="archive-tags categories">
+        {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+        {% assign sortedTags = site_tags | split:',' | sort %}
+        {% for tag in sortedTags %}
+        <a class="category" href="#{{ tag | cgi_escape }}">{{ tag }}</a>{% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      </div>
+      {% for tag in sortedTags %}
+        <h2 id="{{ tag | cgi_escape }}">{{ tag }}</h2>
+        <ul class="archive-post-list" style="display: flex; flex-direction: column;">
+        {% for post in site.tags[tag] %}
+          <li><a class="outside-link" href="{{ site.baseurl }}{{ post.url }}">{{ post.title | truncatewords:6 }}</a> <span class="archive-meta"> — <time class="archive-date" datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%B %-d, %Y" }}</time></span></li>
+        {% endfor %}
+        </ul>
+        <p><a href="#top" class="archive-top-link">Return to top &#8593;</a></p>
+      {% endfor %}
+    </div>
+  </article>
+</main>

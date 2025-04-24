@@ -1,2 +1,4 @@
 node_modules
 .lh
+.jekyll-cache
+_site

@@ -1,65 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
-
-html {
-    height: 100%;
-    font-size: medium;
-    min-height: 100vh;
-    line-height: 1;
-    background-color: #212529;
-    font-family: 'Ubuntu Mono', monospace;
+.thm {
+    position: absolute; 
+    right: 2vw; 
+    bottom: 2vh;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-    font-family: 'Courier New', Courier, monospace;
-}
-
-body {
-    margin-top: 10vh;
-    color: white;
-    font-size: 20px;
-}
-
-*,
-*::before,
-*::after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+.htb {
+    position: absolute; 
+    left: 1vw; 
+    bottom: 2vh;
 }
 
 @media screen and (max-width: 550px) {
-    .content {
-        margin: 5vh 1vw 5vh 1vw !important;
+    .badge-wrapper {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
 
-    .thm {
-        position: relative !important;
-        margin-left: 25%;
+    .thm, .htb {
+        position: unset !important;
     }
-
-    .htb {
-        position: relative !important;
-        margin-left: 25%;
-    }
-}
-
-.content {
-    margin: 5vh 15vw 5vh 15vw;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    background-color: #333;
-    border-radius: 15px;
-}
-
-p {
-    margin-bottom: 2vh;
 }
 
 .outside-link {
@@ -68,7 +30,7 @@ p {
 }
 
 .outside-link:hover {
-    color: #1e2be5;
+    color: #1ebae5;
     cursor: pointer;
 }
 
@@ -80,40 +42,6 @@ p {
     z-index: -1;
 }
 
-nav {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 60px 0;
-    mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
-}
-
-nav ul {
-    text-align: center;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
-    box-shadow: 0 0 25px rgba(0, 0, 0, .1), inset 0 0 1px rgba(255, 255, 255, 0.6);
-    background-color: white;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-li a:hover {
-    background-color: black;
-    color: white;
-}
-
-li {
-    display: inline;
-}
-
-nav a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
 .center {
     display: flex;
     justify-content: center;
@@ -123,7 +51,7 @@ nav a {
 .icons {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     letter-spacing: 0px;
     padding: 0px;
     gap: 1.03125rem;

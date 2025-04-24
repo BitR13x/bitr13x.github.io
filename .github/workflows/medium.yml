@@ -1,0 +1,34 @@
+name: "Import from Medium"
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout local repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3
+          bundler-cache: true
+
+      - name: Import blogs from medium
+        run: bundle exec jekyll import medium --username bitr13x
+
+      - name: Commit and push imported blogs
+        run: |
+          git add _posts
+          if ! (git diff --staged --quiet --exit-code); then
+              git config --global user.name "GitHub Actions"
+              git commit -m 'Import blogs from medium'
+          fi
+          git push origin main
