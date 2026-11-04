@@ -3,11 +3,11 @@
 # ============================================================
 
 title: "BitR13x"
-description: "Programmer, penetration tester, and security researcher. Writing about reverse engineering, malware analysis, and building software."
+description: "Software engineer, penetration tester, and security researcher. Writing about reverse engineering, malware analysis, and building software."
 author: "BitR13x"
 lang: "en-US"
 
-url: "https://cyberh.space"
+url: ""
 baseurl: ""
 
 # Markdown / syntax
@@ -52,18 +52,12 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
-  - vendor
   - .sass-cache
   - .jekyll-cache
   - gemfiles
   - README.md
-  - bitr13x-ref
   - scripts
   - .github
-
-# Include these (normally excluded by Jekyll)
-include:
-  - .nojekyll
 
 # SEO / social
 twitter:
