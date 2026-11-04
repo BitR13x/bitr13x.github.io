@@ -1,37 +1,57 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: " en-US" }}">
+---
+layout: default
+nav: blog
+styles: /assets/css/blog.css
+---
 
-<head>
-    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/blog.css" />
-    <script src="{{site.baseurl}}/assets/js/copy-code.js"></script>
-    {% include head_meta.html %}
-    <link rel="stylesheet" href="{{ "/assets/css/index.css" | relative_url }}">
-</head>
+<div class="container">
+  <div class="blog-header">
+    <h1>~/<span class="acc">articles</span></h1>
+    <p>Writeups on reverse engineering, malware analysis, CTFs, and building software.</p>
+  </div>
 
-<body>
-    {% include navbar.html %}
-    <main>
-        <section class="articles">
-            {% for post in site.posts %}
-            <article class="article">
-                <h2 class="article-title">
-                    <a href="{{site.baseurl}}{{post.url}}"> {{post.title}} </a>
-                </h2>
-                <small class="date">{{post.date | date_to_string}}</small>
-                <div class="categories">
-                    {% for c in post.tags %}
-                    <a href="{{site.baseurl}}/tags#{{c | cgi_escape}}" data-base-url="{{site.baseurl}}" class="category">{{c}}</a>
-                    {% endfor %}
-                </div>
-            </article>
-            {%endfor%}
-        </section>
+  <!-- Search -->
+  <div class="search-wrap">
+    <svg class="search-icon" viewBox="0 0 24 24"><path d="M10 2a8 8 0 1 0 4.9 14.32l5.39 5.39 1.41-1.41-5.39-5.39A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"/></svg>
+    <input type="text" class="search-input" id="search-input"
+           placeholder="Search articles by title..." autocomplete="off">
+  </div>
 
-    </main>
+  <!-- Tag filter -->
+  <div class="tag-filter" id="tag-filter"></div>
 
-<canvas id="canvas"></canvas>
+  <!-- Result count -->
+  <div class="search-result-count" id="result-count"></div>
 
-<script type="text/javascript" src="{{"/assets/scripts/canvas.js" | relative_url }}" charset="utf-8"></script>
-</body>
+  <!-- Articles -->
+  <div class="articles" id="articles-grid">
+    {% for post in site.posts %}
+    <article class="article-card slide-up"
+             data-title="{{ post.title | downcase | escape }}"
+             data-tags="{{ post.tags | join: ',' | downcase }}"
+             data-date="{{ post.date | date: '%Y-%m-%d' }}">
+      <div class="ac-top">
+        <h3 class="ac-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <time class="ac-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+      </div>
+      {% if post.excerpt %}
+      <p class="ac-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+      {% endif %}
+      {% if post.tags.size > 0 %}
+      <div class="ac-tags">
+        {% for tag in post.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
 
-</html>
+  <div class="no-results" id="no-results" style="display:none">
+    <div class="nr-icon">&#x2316;</div>
+    <p>No articles found. Try a different search term.</p>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/search.js' | relative_url }}"></script>

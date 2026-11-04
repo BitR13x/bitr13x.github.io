@@ -1,0 +1,76 @@
+# ============================================================
+# Jekyll configuration — bitr13x.github.io (remastered)
+# ============================================================
+
+title: "BitR13x"
+description: "Programmer, penetration tester, and security researcher. Writing about reverse engineering, malware analysis, and building software."
+author: "BitR13x"
+lang: "en-US"
+
+url: "https://cyberh.space"
+baseurl: ""
+
+# Markdown / syntax
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Permalinks — clean URLs
+permalink: /articles/:title/
+
+# Pagination (if jekyll-paginate is available)
+# paginate: 10
+# paginate_path: "/articles/page:num/"
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Collections
+collections:
+  posts:
+    output: true
+
+# Defaults — auto-apply layouts
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: "assets/**"
+    values:
+      layout: null
+
+# Exclude build artifacts
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+  - gemfiles
+  - README.md
+  - bitr13x-ref
+  - scripts
+  - .github
+
+# Include these (normally excluded by Jekyll)
+include:
+  - .nojekyll
+
+# SEO / social
+twitter:
+  username: bitr13x
+  card: summary
+social:
+  name: BitR13x
+  links:
+    - https://github.com/BitR13x
+    - https://medium.com/@bitr13x

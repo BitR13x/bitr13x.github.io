@@ -1,0 +1,19 @@
+{% comment %}Reusable post card. Pass `post` variable.{% endcomment %}
+<article class="article-card">
+  <div class="ac-top">
+    <h3 class="ac-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h3>
+    <time class="ac-date" datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+  </div>
+  {% if post.excerpt %}
+  <p class="ac-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+  {% endif %}
+  {% if post.tags.size > 0 %}
+  <div class="ac-tags">
+    {% for tag in post.tags %}
+    <a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</article>

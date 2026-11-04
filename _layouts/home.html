@@ -1,0 +1,97 @@
+---
+layout: default
+nav: home
+styles: /assets/css/home.css
+---
+
+<section class="hero">
+  <div class="hero-prompt scale-up">
+    <span class="acc">┌─[</span>root@bitr13x<span class="acc">]─[</span>~<span class="acc">]</span>
+  </div>
+  <h1 class="hero-name scale-up">@BitR13x<span class="cursor-blink"></span></h1>
+  <p class="hero-tagline fade-in">
+    <span class="hl">Software engineer</span>, <span class="hl">penetration tester</span>, and <span class="hl">security researcher</span>.
+    Breaking binaries, writing tools, and documenting the journey.
+    This is my storage of <span class="hl-p">writeups</span>, <span class="hl-p">notes</span>, and <span class="hl-p">projects</span>.
+  </p>
+
+  <div class="hero-nav fade-in">
+    <a href="{{ '/articles/' | relative_url }}"><span>~/articles</span></a>
+    <a href="{{ '/cheatsheet/' | relative_url }}"><span>~/cheatsheet</span></a>
+    <a href="{{ '/resources/' | relative_url }}"><span>~/resources</span></a>
+    <a href="{{ '/about/' | relative_url }}"><span>~/about</span></a>
+  </div>
+
+  <div class="hero-icons fade-in">
+    <a href="https://github.com/BitR13x" target="_blank" rel="noopener" title="GitHub">
+      <svg viewBox="0 0 40 40"><use xlink:href="{{ '/assets/icons/github.svg#icon' | relative_url }}"></use></svg>
+    </a>
+    <a href="mailto:sw33tbit@protonmail.com" title="Email">
+      <svg viewBox="0 0 40 40"><use xlink:href="{{ '/assets/icons/email.svg#icon' | relative_url }}"></use></svg>
+    </a>
+    <a href="https://medium.com/@bitr13x" target="_blank" rel="noopener" title="Medium">
+      <svg viewBox="0 0 40 40"><use xlink:href="{{ '/assets/icons/medium.svg#icon' | relative_url }}"></use></svg>
+    </a>
+    <a href="https://www.buymeacoffee.com/bitr13x" target="_blank" rel="noopener" title="Buy me a coffee">
+      <svg viewBox="0 0 40 40"><use xlink:href="{{ '/assets/icons/buymecoffee.svg#icon' | relative_url }}"></use></svg>
+    </a>
+  </div>
+
+  <div class="stats-bar fade-in">
+    <div class="stat">
+      <div class="stat-num">{{ site.posts.size }}</div>
+      <div class="stat-label">Articles</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">{{ site.tags.size }}</div>
+      <div class="stat-label">Topics</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">78</div>
+      <div class="stat-label">Tools</div>
+    </div>
+  </div>
+</section>
+
+<section class="recent-section">
+  <div class="container">
+    <h2 class="section-title">Recent Articles</h2>
+    <div class="recent-grid">
+      {% for post in site.posts limit:3 %}
+      <a class="recent-card slide-up" style="animation-delay:{{ forloop.index | times: 0.1 }}s"
+         href="{{ post.url | relative_url }}">
+        <div class="rc-title">{{ post.title }}</div>
+        <div class="rc-date">{{ post.date | date: "%b %-d, %Y" }}</div>
+        {% if post.excerpt %}
+        <p class="rc-excerpt">{{ post.excerpt | strip_html | truncatewords: 22 }}</p>
+        {% endif %}
+        <div class="rc-tags">
+          {% for tag in post.tags limit:3 %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="view-all">
+      <a class="btn" href="{{ '/articles/' | relative_url }}">View all articles &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- Platform badges -->
+<div class="badges-section">
+  <div class="badges-label">≡ Platforms ≡</div>
+  <div class="badges">
+    <div class="badge thm">
+      <a href="https://tryhackme.com/p/bitr13x" target="_blank" rel="noopener">
+        <img src="https://tryhackme.com/badge/31780" alt="TryHackMe">
+      </a>
+    </div>
+    <div class="badge htb">
+      <a href="https://app.hackthebox.com/profile/278324" target="_blank" rel="noopener">
+        <img src="https://www.hackthebox.com/badge/278324" alt="HackTheBox">
+      </a>
+    </div>
+  </div>
+</div>

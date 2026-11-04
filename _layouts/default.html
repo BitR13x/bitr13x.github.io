@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: " en-US" }}">
+<html lang="{{ site.lang | default: 'en' }}">
 
 <head>
-{% include head_meta.html %}
-<link rel="stylesheet" href="{{ "/assets/css/index.css" | relative_url }}">
+  {% include head.html %}
 </head>
 
-<body>
-  {{ content }}
-</body>
+<body data-page="{{ page.nav | default: layout.nav }}">
+  {% include particles.html %}
+  {% include navbar.html %}
 
+  <div class="page-wrap">
+    {{ content }}
+  </div>
+
+  {% include footer.html %}
+
+  <script src="{{ '/assets/js/copy-code.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/reveal.js' | relative_url }}"></script>
+</body>
 </html>

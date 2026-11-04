@@ -1,0 +1,141 @@
+/* ============================================================
+   home.css — landing / hero
+   ============================================================ */
+
+/* ---- HERO ---- */
+.hero {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  min-height: 65vh; padding: 4rem 1.5rem 2rem;
+  position: relative;
+}
+.hero-prompt { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem; font-weight: 300; }
+.hero-name {
+  font-size: clamp(2.2rem, 7vw, 4.5rem); font-weight: 800;
+  letter-spacing: -0.02em; line-height: 1.1;
+  color: var(--text-bright);
+  display: inline-flex; align-items: baseline;
+  filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.15));
+  position: relative;
+}
+.hero-name::after {
+  content: ""; position: absolute; bottom: -0.3em; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--purple), transparent);
+  opacity: 0.4;
+}
+.hero-name .cursor-blink {
+  margin-left: 0.08em; font-size: 0.85em;
+}
+.hero-tagline {
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem); color: var(--text-muted);
+  max-width: 580px; margin-top: 1.8rem; line-height: 1.7;
+}
+.hero-tagline .hl { color: var(--accent); font-weight: 600; }
+.hero-tagline .hl-p { color: var(--purple-bright); font-weight: 600; }
+
+/* ---- HERO NAV BUTTONS ---- */
+.hero-nav {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 2.5rem;
+}
+.hero-nav a {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.55rem 1.15rem; font-size: 0.82rem;
+  color: var(--text-muted); border: 1px solid var(--border); border-radius: 8px;
+  background: rgba(20, 24, 29, 0.6); backdrop-filter: blur(4px);
+  transition: all 0.25s ease; position: relative; overflow: hidden;
+}
+.hero-nav a::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--accent-glow), rgba(168, 85, 247, 0.1));
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.hero-nav a:hover {
+  color: var(--accent); border-color: var(--accent-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+.hero-nav a:hover::before { opacity: 1; }
+.hero-nav a span { position: relative; z-index: 1; }
+
+/* ---- HERO ICONS ---- */
+.hero-icons { display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem; }
+.hero-icons a {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.hero-icons a:hover {
+  border-color: var(--accent); transform: translateY(-3px);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.hero-icons svg { width: 22px; height: 22px; fill: var(--text-muted); transition: fill 0.25s ease; }
+.hero-icons a:hover svg { fill: var(--accent); }
+
+/* ---- STATS BAR ---- */
+.stats-bar {
+  display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap;
+}
+.stat { text-align: center; transition: transform 0.25s ease; }
+.stat:hover { transform: translateY(-2px); }
+.stat-num {
+  font-size: 1.9rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--purple-bright));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
+
+/* ---- RECENT POSTS ---- */
+.recent-section { padding: 3rem 0 4rem; }
+.recent-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.2rem; margin-top: 1.5rem;
+}
+.recent-card {
+  display: block; padding: 1.5rem;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius); color: inherit;
+  transition: all 0.3s ease; position: relative; overflow: hidden;
+}
+.recent-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease;
+}
+.recent-card:hover {
+  border-color: var(--accent-dim); transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+.recent-card:hover::before { transform: scaleX(1); }
+.rc-title { font-size: 1rem; font-weight: 600; color: var(--text-bright); margin-bottom: 0.5rem; line-height: 1.35; transition: color 0.2s ease; }
+.recent-card:hover .rc-title { color: var(--accent); }
+.rc-date { font-size: 0.72rem; color: var(--text-muted); }
+.rc-excerpt { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; line-height: 1.5; }
+.rc-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.8rem; }
+
+.view-all { text-align: center; margin-top: 2rem; }
+
+/* ---- BADGES ---- */
+.badges-section {
+  padding: 0 2rem 3.5rem; text-align: center;
+}
+.badges-label {
+  font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 1.2rem;
+}
+.badges {
+  display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+}
+.badges .badge {
+  position: relative; transition: transform 0.25s ease;
+  border-radius: 8px; overflow: hidden;
+}
+.badges .badge:hover { transform: translateY(-3px); }
+.badges .badge img { border-radius: 8px; }
+
+@media (max-width: 600px) {
+  .stats-bar { gap: 1.5rem; }
+  .badges { flex-direction: column; align-items: center; gap: 1rem; }
+}

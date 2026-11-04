@@ -1,4 +1,19 @@
-node_modules
-.lh
-.jekyll-cache
+# Jekyll
 _site
+.jekyll-cache
+.jekyll-metadata
+.sass-cache
+
+# Ruby
+*.gem
+.bundle
+vendor
+
+# Node
+node_modules
+
+# Misc
+.lh
+*.swp
+*.tmp
+scripts/__pycache__/*

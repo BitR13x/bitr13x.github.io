@@ -1,0 +1,18 @@
+---
+layout: default
+title: "404"
+description: "Page not found."
+---
+
+<div class="nf-wrap">
+  <div style="font-size:clamp(4rem,15vw,8rem);font-weight:800;color:var(--accent);line-height:1;text-shadow:0 0 40px var(--accent-glow)" class="scale-up">404</div>
+  <p style="font-size:1.1rem;color:var(--text-muted);margin:1rem 0 2rem">
+    <span style="color:var(--accent)">root@bitr13x:~$</span> segment_not_found
+  </p>
+  <p style="font-size:0.9rem;color:var(--text-muted)">The page you're looking for has been overwritten or never existed.</p>
+  <a class="btn btn-primary" href="{{ '/' | relative_url }}" style="margin-top:1.5rem">&larr; return home</a>
+</div>
+
+<style>
+.nf-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;padding:2rem}
+</style>
